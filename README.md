@@ -112,3 +112,9 @@ ext install ritwickdey.LiveServer
 ```bash
 python3 manage.py test
 ```
+
+### Diagram UML
+![MicrosoftTeams-image](https://user-images.githubusercontent.com/56647127/215520758-548d1e30-5205-4f64-9a4e-9ca30f6ac424.png)
+
+
+
