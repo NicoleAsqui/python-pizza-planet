@@ -116,5 +116,10 @@ python3 manage.py test
 ### Diagram UML
 ![MicrosoftTeams-image](https://user-images.githubusercontent.com/56647127/215520758-548d1e30-5205-4f64-9a4e-9ca30f6ac424.png)
 
+### Software architectural pattern 
+This project handles a model-view-controller architecture where we can see that each component report, ingredient, order and beverage has these characteristics.
+![model](https://user-images.githubusercontent.com/56647127/215521949-b21f6c26-0dc4-4f91-872c-bd6fd6c2a2f9.png)
+
+
 
 
