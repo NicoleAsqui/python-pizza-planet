@@ -170,9 +170,6 @@ class ReportManager(BaseManager):
         best_customers = [row for row in cls.session.query(func.sum(Order.total_price).label('total_price'), Order.client_name,  Order.client_dni).\
                                                     group_by(Order.client_name).\
                                                     order_by(desc('total_price')).limit(3).offset(0).all()]
-        if len(best_customers) == 0:
-            return {"total_purchase": None, "name": None, "dni": None}
-        
         response: list = [{
                 'total_purchase': round(customer[0], 2),
                 'name': customer[1],
