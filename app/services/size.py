@@ -1,29 +1,38 @@
 from app.common.http_methods import GET, POST, PUT
-from flask import Blueprint
+from flask import Blueprint, jsonify, request
 
-from app.services.service import Service
+from ..controllers import SizeController
 
-from ..controllers.controller import ControllerFactory
-
-size = Blueprint("size", __name__)
-controller = ControllerFactory.get_controller("size")
+size = Blueprint('size', __name__)
 
 
-@size.route("/", methods=POST)
+@size.route('/', methods=POST)
 def create_size():
-    return Service.create(controller=controller)
+    size, error = SizeController.create(request.json)
+    response = size if not error else {'error': error}
+    status_code = 200 if not error else 400
+    return jsonify(response), status_code
 
 
-@size.route("/", methods=PUT)
+@size.route('/', methods=PUT)
 def update_size():
-    return Service.update(controller=controller)
+    size, error = SizeController.update(request.json)
+    response = size if not error else {'error': error}
+    status_code = 200 if not error else 400
+    return jsonify(response), status_code
 
 
-@size.route("/", methods=GET)
+@size.route('/', methods=GET)
 def get_sizes():
-    return Service.get_all(controller=controller)
+    size, error = SizeController.get_all()
+    response = size if not error else {'error': error}
+    status_code = 200 if size else 404 if not error else 400
+    return jsonify(response), status_code
 
 
-@size.route("/id/<_id>", methods=GET)
+@size.route('/id/<_id>', methods=GET)
 def get_size_by_id(_id: int):
-    return Service.get_by_id(_id=_id, controller=controller)
+    size, error = SizeController.get_by_id(_id)
+    response = size if not error else {'error': error}
+    status_code = 200 if size else 404 if not error else 400
+    return jsonify(response), status_code

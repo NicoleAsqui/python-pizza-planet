@@ -1,24 +1,32 @@
 from app.common.http_methods import GET, POST
 from flask import Blueprint
 
-from app.services.service import Service
+from flask import Blueprint, jsonify, request
 
-from ..controllers.controller import ControllerFactory
-
-order = Blueprint("order", __name__)
-controller = ControllerFactory.get_controller("order")
+from ..controllers import OrderController
 
 
-@order.route("/", methods=POST)
+order = Blueprint('order', __name__)
+
+@order.route('/', methods=POST)
 def create_order():
-    return Service.create(controller=controller)
+    order, error = OrderController.create(request.json)
+    response = order if not error else {'error': error}
+    status_code = 200 if not error else 400
+    return jsonify(response), status_code
 
 
-@order.route("/id/<_id>", methods=GET)
+@order.route('/id/<_id>', methods=GET)
 def get_order_by_id(_id: int):
-    return Service.get_by_id(_id=_id, controller=controller)
+    order, error = OrderController.get_by_id(_id)
+    response = order if not error else {'error': error}
+    status_code = 200 if order else 404 if not error else 400
+    return jsonify(response), status_code
 
 
-@order.route("/", methods=GET)
+@order.route('/', methods=GET)
 def get_orders():
-    return Service.get_all(controller=controller)
+    orders, error = OrderController.get_all()
+    response = orders if not error else {'error': error}
+    status_code = 200 if orders else 404 if not error else 400
+    return jsonify(response), status_code
