@@ -6,6 +6,7 @@ def test_create_beverage_when_function_have_a_dict_should_return_a_created_bever
     app, beverage: dict
 ):
     created_beverage, error = BeverageController.create(entry=beverage)
+    
     pytest.assume(error is None)
     for param, value in beverage.items():
         pytest.assume(param in created_beverage)
@@ -16,16 +17,21 @@ def test_create_beverage_when_function_have_a_dict_should_return_a_created_bever
 def test_update_beverage_when_function_have_a_dict_should_return_a_updated_beverage(
     app, beverage: dict
 ):
-    created_beverage, _ = BeverageController.create(entry=beverage)
+    #Arrange
     updated_fields = {"name": "updated", "price": 10}
-    updated_beverage, error = BeverageController.update(
+
+    #Act
+    created_beverage, _ = BeverageController.create(entry=beverage)
+    updated_beverage, error_updated_beverage= BeverageController.update(
         new_values={"_id": created_beverage["_id"], **updated_fields}
     )
-    pytest.assume(error is None)
-    beverage_from_database, error = BeverageController.get_by_id(
+    beverage_from_database, error_beverage_from_database = BeverageController.get_by_id(
         _id=created_beverage["_id"]
     )
-    pytest.assume(error is None)
+
+    #Assert
+    pytest.assume(error_updated_beverage is None)
+    pytest.assume(error_beverage_from_database is None)
     for param, value in updated_fields.items():
         pytest.assume(updated_beverage[param] == value)
         pytest.assume(beverage_from_database[param] == value)
@@ -36,6 +42,7 @@ def test_get_beverage_by_id_when_function_have_a_dict_should_return_a_beverage(
 ):
     created_beverage, _ = BeverageController.create(entry=beverage)
     beverage_from_db, error = BeverageController.get_by_id(_id=created_beverage["_id"])
+
     pytest.assume(error is None)
     for param, value in created_beverage.items():
         pytest.assume(beverage_from_db[param] == value)
@@ -44,7 +51,10 @@ def test_get_beverage_by_id_when_function_have_a_dict_should_return_a_beverage(
 def test_get_all_beverages_when_function_have_a_dict_should_return_all_beverages(
     app, beverages: list
 ):
+    #Arrange
     created_beverages = []
+
+    #Act
     for beverage in beverages:
         created_beverage, _ = BeverageController.create(entry=beverage)
         created_beverages.append(created_beverage)
@@ -53,6 +63,8 @@ def test_get_all_beverages_when_function_have_a_dict_should_return_all_beverages
     searchable_beverages = {
         db_beverage["_id"]: db_beverage for db_beverage in beverages_from_db
     }
+
+    #Assert
     pytest.assume(error is None)
     for created_beverage in created_beverages:
         current_id = created_beverage["_id"]

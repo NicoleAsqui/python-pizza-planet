@@ -2,7 +2,7 @@ import pytest
 from app.controllers import IngredientController
 
 
-def test_create(app, ingredient: dict):
+def test_create_when_function_have_a_dict_should_return_a_created_ingredient(app, ingredient: dict):
     created_ingredient, error = IngredientController.create(entry=ingredient)
     pytest.assume(error is None)
     for param, value in ingredient.items():
@@ -11,7 +11,7 @@ def test_create(app, ingredient: dict):
         pytest.assume(created_ingredient["_id"])
 
 
-def test_update(app, ingredient: dict):
+def test_update_when_function_have_a_dict_should_return_a_updated_ingredient(app, ingredient: dict):
     created_ingredient, _ = IngredientController.create(entry=ingredient)
     updated_fields = {"name": "updated", "price": 10}
     updated_ingredient, error = IngredientController.update(
@@ -27,7 +27,7 @@ def test_update(app, ingredient: dict):
         pytest.assume(ingredient_from_database[param] == value)
 
 
-def test_get_by_id(app, ingredient: dict):
+def test_get_by_id_when_function_have_a_dict_should_return_a_ingredient(app, ingredient: dict):
     created_ingredient, _ = IngredientController.create(entry=ingredient)
     ingredient_from_db, error = IngredientController.get_by_id(
         _id=created_ingredient["_id"]
@@ -37,7 +37,7 @@ def test_get_by_id(app, ingredient: dict):
         pytest.assume(ingredient_from_db[param] == value)
 
 
-def test_get_all(app, ingredients: list):
+def test_get_all_ingredients_when_function_have_a_dict_should_return_all_ingredients(app, ingredients: list):
     created_ingredients = []
     for ingredient in ingredients:
         created_ingredient, _ = IngredientController.create(entry=ingredient)
