@@ -44,7 +44,7 @@ def __create_beverages_sizes_and_ingredients(
     )
 
 
-def test_create(app, ingredients, beverages, size, client_data):
+def test_create_when_function_have_a_dict_should_return_a_created_order(app, ingredients, beverages, size, client_data):
     (
         created_sizes,
         created_ingredients,
@@ -79,7 +79,7 @@ def test_create(app, ingredients, beverages, size, client_data):
         pytest.assume(not beverages_in_detail.difference(beverages_ids))
 
 
-def test_calculate_order_price(app, ingredients, beverages, size, client_data):
+def test_calculate_order_price_when_a_have_an_order(app, ingredients, beverages, size, client_data):
     (
         created_sizes,
         created_ingredients,
@@ -105,7 +105,7 @@ def test_calculate_order_price(app, ingredients, beverages, size, client_data):
     )
 
 
-def test_get_by_id(app, ingredients, beverages, size, client_data):
+def test_get_by_id_when_function_have_a_dict_should_return_a_order(app, ingredients, beverages, size, client_data):
     (
         created_sizes,
         created_ingredients,
@@ -134,7 +134,7 @@ def test_get_by_id(app, ingredients, beverages, size, client_data):
         pytest.assume(not ingredients_in_detail.difference(ingredient_ids))
 
 
-def test_get_all(app, ingredients, beverages, sizes, client_data):
+def test_get_all_orders_when_function_have_a_dict_should_return_all_orders(app, ingredients, beverages, sizes, client_data):
     (
         created_sizes,
         created_ingredients,

@@ -2,7 +2,7 @@ import pytest
 from app.controllers import SizeController
 
 
-def test_create(app, size: dict):
+def test_create_size_when_function_have_a_dict_should_return_a_created_size(app, size: dict):
     created_size, error = SizeController.create(size)
     pytest.assume(error is None)
     for param, value in size.items():
@@ -11,7 +11,7 @@ def test_create(app, size: dict):
         pytest.assume(created_size["_id"])
 
 
-def test_update(app, size: dict):
+def test_update_when_function_have_a_dict_should_return_a_updated_size(app, size: dict):
     created_size, _ = SizeController.create(entry=size)
     updated_fields = {"name": "updated", "price": 10}
     updated_size, error = SizeController.update(
@@ -22,7 +22,7 @@ def test_update(app, size: dict):
         pytest.assume(updated_size[param] == value)
 
 
-def test_get_by_id(app, size: dict):
+def test_get_by_id_when_function_have_a_dict_should_return_a_size(app, size: dict):
     created_size, _ = SizeController.create(entry=size)
     size_from_db, error = SizeController.get_by_id(_id=created_size["_id"])
     pytest.assume(error is None)
@@ -30,7 +30,7 @@ def test_get_by_id(app, size: dict):
         pytest.assume(size_from_db[param] == value)
 
 
-def test_get_all(app, sizes: list):
+def test_get_all_sizes_when_function_have_a_dict_should_return_all_sizes(app, sizes: list):
     created_sizes = []
     for size in sizes:
         created_size, _ = SizeController.create(entry=size)
