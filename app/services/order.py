@@ -1,24 +1,26 @@
 from app.common.http_methods import GET, POST
-from flask import Blueprint
+from flask import Blueprint, request
 
-from app.services.service import Service
+from app.services.service import base_service
 
-from ..controllers.controller import ControllerFactory
+from ..controllers import OrderController
 
-order = Blueprint("order", __name__)
-controller = ControllerFactory.get_controller("order")
+order = Blueprint('order', __name__)
 
 
-@order.route("/", methods=POST)
+@order.route('/', methods=POST)
+@base_service
 def create_order():
-    return Service.create(controller=controller)
+    return OrderController.create(request.json)
 
 
-@order.route("/id/<_id>", methods=GET)
+@order.route('/id/<_id>', methods=GET)
+@base_service
 def get_order_by_id(_id: int):
-    return Service.get_by_id(_id=_id, controller=controller)
+    return OrderController.get_by_id(_id)
 
 
-@order.route("/", methods=GET)
+@order.route('/', methods=GET)
+@base_service
 def get_orders():
-    return Service.get_all(controller=controller)
+    return OrderController.get_all()

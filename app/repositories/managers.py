@@ -33,7 +33,7 @@ class BaseManager:
         serializer = cls.serializer(many=True)
         _objects = cls.model.query.all()
         result = serializer.dump(_objects)
-        return result
+        return result 
 
     @classmethod
     def get_by_id(cls, _id: Any):

@@ -1,27 +1,31 @@
+from flask import Blueprint, request
 from app.common.http_methods import GET, POST, PUT
-from flask import Blueprint
-from app.controllers.controller import ControllerFactory
-from app.services.service import Service
+from app.services.service import base_service
 
-ingredient = Blueprint("ingredient", __name__)
-controller = ControllerFactory.get_controller("ingredient")
+from ..controllers import IngredientController
+
+ingredient = Blueprint('ingredient', __name__)
 
 
-@ingredient.route("/", methods=POST)
+@ingredient.route('/', methods=POST)
+@base_service
 def create_ingredient():
-    return Service.create(controller=controller)
+    return IngredientController.create(request.json)
 
 
-@ingredient.route("/", methods=PUT)
+@ingredient.route('/', methods=PUT)
+@base_service
 def update_ingredient():
-    return Service.update(controller=controller)
+    return IngredientController.update(request.json)
 
 
-@ingredient.route("/id/<_id>", methods=GET)
+@ingredient.route('/id/<_id>', methods=GET)
+@base_service
 def get_ingredient_by_id(_id: int):
-    return Service.get_by_id(_id=_id, controller=controller)
+    return IngredientController.get_by_id(_id)
 
 
-@ingredient.route("/", methods=GET)
+@ingredient.route('/', methods=GET)
+@base_service
 def get_ingredients():
-    return Service.get_all(controller=controller)
+    return IngredientController.get_all()
